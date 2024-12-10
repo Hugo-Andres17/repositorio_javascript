@@ -41,8 +41,6 @@ function loguear (){
 
 
 
-
-
     }while(identificar)
 
 
@@ -52,14 +50,17 @@ loguear()
 
 function sumar() {
 
-    alert("estas usando la function de sumar, preciona enter para comenzar a sumar ")
+    alert("estas usando la function de sumar, presiona enter para comenzar a sumar ")
 
 let num1 = parseFloat(prompt("ingresa un numero"))
 let num2 = parseFloat(prompt("ingresa el segundo numero "))
+
 
 let resultado = num1 + num2 ;
 
 alert ("el resultado es " + resultado)
 
+
 }
+
 
