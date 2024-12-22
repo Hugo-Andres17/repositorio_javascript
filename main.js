@@ -1,66 +1,56 @@
-function loguear (){
+let titulo = document.createElement("p")
+titulo.innerHTML= "<h1>Segundo proyecto</h1>" 
 
-    let identificar = true
-    let intentos = 1
-
-
-    do{
-
-        let usuario = prompt ("ingresa tu usuario").toUpperCase()
-        
-
-        if (usuario == null || usuario == ""){
-            alert ("no escribiste nada, no se puede reconocer el usuario")
-            intentos++
-            if(intentos>3){
-                alert("superaste la cantidad de intentos")
-                break
-            }
-            
-        
-        }
-
-        if((usuario === "ADMIN"|| usuario==="HUGO") && intentos<=3){
-            let contraseña = parseInt (prompt("ingresa tu contraseña"))
-            if (contraseña == null){
-                alert ("no ingresaste la contraseña asi que me toca sacarte otra vez")
-                break;
-            }
-            if (contraseña === 12345678){
-                alert("Bienvenido " + usuario)
-                identificar = false
-                sumar()
-            }else{
-                alert ("contraseña incorrecta")
-                intentos++ 
-                if(intentos>3){
-                    alert("superaste la cantidad de intentos")
-                break;}
-            }
-        }
+document.body.append(titulo)
 
 
+const producto = function(nombre,precio,stock){
 
-    }while(identificar)
-
+    this.nombre = nombre
+    this.precio = precio
+    this.stock = stock
 
 }
-
-loguear()
-
-function sumar() {
-
-    alert("estas usando la function de sumar, presiona enter para comenzar a sumar ")
-
-let num1 = parseFloat(prompt("ingresa un numero"))
-let num2 = parseFloat(prompt("ingresa el segundo numero "))
+let producto1 = new producto ("samsung s22",1500000,6)
+let producto2 = new producto ("notebook hp",2600000,3)
+let producto3 = new producto ("motorola g24",240000,10) 
 
 
-let resultado = num1 + num2 ;
+let lista = [producto1,producto2,producto3]
 
-alert ("el resultado es " + resultado)
+
+function filtrar(){
+    let productoabuscar = prompt("¿ Que producto buscas ?")
+    let resultado = lista.filtrar ((x)=>x.nombre.touppercasse().incluides(productoabuscar))
+
+    if (resultado.lenght >0) {
+        console.table (resultado)
+    }else{
+        alert("no se encontro lo que buscas")
+    }
 
 
 }
 
 
+
+
+function agregar(){
+
+    let nombre= prompt("ingresa el nombre del producto que desea ingresar")
+    let precio= prompt("ingresa el precio del producto")
+    let stock= prompt("ingresa el stock del producto")
+
+
+    if(isNaN(precio)|| isNaN(stock)|| nombre ==""){
+        alert("no ingresaste el dato solicitado")
+        return
+    }
+
+    let producto = new producto (nombre,precio,stock)
+    lista.push (producto)
+    console.log (lista) 
+}
+
+
+console.table(lista)
