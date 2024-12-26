@@ -4,26 +4,32 @@ titulo.innerHTML= "<h1>Segundo proyecto</h1>"
 document.body.append(titulo)
 
 
-const producto = function(nombre,precio,stock){
+const producto = function (nombre,precio,stock){
 
-    this.nombre = nombre
+    this.nombre = nombre.toUpperCase()
     this.precio = precio
     this.stock = stock
-
 }
-let producto1 = new producto ("samsung s22",1500000,6)
-let producto2 = new producto ("notebook hp",2600000,3)
-let producto3 = new producto ("motorola g24",240000,10) 
+let producto1 = new producto ("samsung s22", 1500000, 6)
+let producto2 = new producto ("notebook hp", 2600000, 3)
+let producto3 = new producto ("motorola g24", 240000, 10) 
 
 
-let lista = [producto1,producto2,producto3]
+
+let lista = [producto1, producto2, producto3]
 
 
 function filtrar(){
-    let productoabuscar = prompt("¿ Que producto buscas ?")
-    let resultado = lista.filtrar ((x)=>x.nombre.touppercasse().incluides(productoabuscar))
+    let productoabuscar = prompt ("¿ Que producto buscas ?")
 
-    if (resultado.lenght >0) {
+    productoabuscar = productoabuscar.trim().toUpperCase();
+
+    let resultado = lista.filter(function(x) {
+        return x.nombre.includes(productoabuscar);
+    });
+
+
+    if (resultado.length > 0) {
         console.table (resultado)
     }else{
         alert("no se encontro lo que buscas")
@@ -31,9 +37,6 @@ function filtrar(){
 
 
 }
-
-
-
 
 function agregar(){
 
@@ -47,10 +50,14 @@ function agregar(){
         return
     }
 
-    let producto = new producto (nombre,precio,stock)
-    lista.push (producto)
-    console.log (lista) 
+    precio = parseFloat (precio)
+    stock = parseInt (stock)
+
+    let nuevoproducto = new producto (nombre.toUpperCase(), precio, stock)
+    lista.push (nuevoproducto)
+
+    console.table (lista) 
 }
 
 
-console.table(lista)
+
