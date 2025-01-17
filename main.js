@@ -1,7 +1,9 @@
 let titulo = document.createElement("p")
-titulo.innerHTML= "<h1>Segundo proyecto</h1>" 
+titulo.innerHTML= "<h1>Tercer proyecto</h1>" 
 
 document.body.append(titulo)
+
+
 
 
 const producto = function (nombre,precio,stock){
@@ -10,13 +12,16 @@ const producto = function (nombre,precio,stock){
     this.precio = precio
     this.stock = stock
 }
-let producto1 = new producto ("samsung s22", 1500000, 6)
-let producto2 = new producto ("notebook hp", 2600000, 3)
-let producto3 = new producto ("motorola g24", 240000, 10) 
+let producto1 = new producto ("Brahma", 1500000, 6)
+let producto2 = new producto ("Quilmes", 2600000, 3)
+let producto3 = new producto ("Budwaiser", 240000, 10) 
+let producto4 = new producto ("Heineken", 2400, 12) 
+let producto5 = new producto ("AndesIpa", 2300, 16) 
+let producto6 = new producto ("AmberLager", 2250, 8) 
 
 
 
-let lista = [producto1, producto2, producto3]
+let lista = [producto1, producto2, producto3, producto4, producto5, producto6]
 
 
 function filtrar(){
