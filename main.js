@@ -24,24 +24,33 @@ let producto6 = new producto ("AmberLager", 2250, 8)
 let lista = [producto1, producto2, producto3, producto4, producto5, producto6]
 
 
-function filtrar(){
-    let productoabuscar = prompt ("¿ Que producto buscas ?")
+// Función para filtrar productos por el título
+function filtrar(event) {
+    event.preventDefault(); // Prevenir el envío del formulario y recarga de la página
+    
+    // Obtener el valor del campo de búsqueda
+    let productoabuscar = document.getElementById("searchInputNavbar").value.trim().toLowerCase();
+    
+    // Obtener todas las tarjetas de producto
+    let cards = document.querySelectorAll(".card");
 
-    productoabuscar = productoabuscar.trim().toUpperCase();
-
-    let resultado = lista.filter(function(x) {
-        return x.nombre.includes(productoabuscar);
+    // Recorrer todas las tarjetas
+    cards.forEach(card => {
+        // Obtener el título de cada tarjeta
+        let titulo = card.querySelector(".card-title").textContent.trim().toLowerCase();
+        
+        // Comprobar si el título contiene el texto de búsqueda
+        if (titulo.includes(productoabuscar)) {
+            card.style.display = "block";  // Mostrar la tarjeta
+        } else {
+            card.style.display = "none";   // Ocultar la tarjeta
+        }
     });
-
-
-    if (resultado.length > 0) {
-        console.table (resultado)
-    }else{
-        alert("no se encontro lo que buscas")
-    }
-
-
 }
+
+// Agregar un "event listener" al formulario de búsqueda
+document.querySelector("form[role='search']").addEventListener("submit", filtrar);
+
 
 function agregar(){
 
