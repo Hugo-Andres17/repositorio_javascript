@@ -31,8 +31,9 @@
           <img src="imagenes/cerveza_brahma.jpg" class="card-img-top" alt="Cerveza Brahma">
           <div class="card-body">
             <h5 class="card-title">Brahma</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Comprar</a>
+            <p class="card-text">Cerveza Rubia </p>
+            <p class="price">precio: $1500</p>
+            <button class="btn btn-primary comprar-btn" data-name="Brahma" data-price="1500">Comprar</button>
           </div>
         </div>
       </div>
@@ -41,8 +42,9 @@
           <img src="imagenes/cerveza_quilmes.jpg" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">Quilmes</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Comprar</a>
+            <p class="card-text">Cerveza Rubia</p>
+            <p class="price">precio: $1800</p>
+            <button class="btn btn-primary comprar-btn" data-name="Quilmes" data-price="1800">Comprar</button>
           </div>
         </div>
       </div>
@@ -51,8 +53,9 @@
           <img src="imagenes/cerveza_budweiser.webp" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">Budweiser</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Comprar</a>
+            <p class="card-text">Cerveza Rubia</p>
+            <p class="price">precio: $2500</p>
+            <button class="btn btn-primary comprar-btn" data-name="Budweiser" data-price="2500">Comprar</button>
           </div>
         </div>
       </div>
@@ -66,8 +69,9 @@
       <img src="imagenes/cerveza_heineken.png" class="card-img-top" alt="...">
       <div class="card-body">
         <h5 class="card-title">Heineken</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Comprar</a>
+        <p class="card-text">Cerveza Rubia</p>
+        <p class="price">precio: $2800</p>
+        <button class="btn btn-primary comprar-btn" data-name="Heineken" data-price="2800">Comprar</button>
       </div>
     </div>
   </div>
@@ -76,8 +80,9 @@
       <img src="imagenes/cerveza_los_andes_ipa.jpg" class="card-img-top" alt="...">
       <div class="card-body">
         <h5 class="card-title">Los andes ipa</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Comprar</a>
+        <p class="card-text">Cerveza Ipa</p>
+        <p class="price">precio: $2400</p>
+        <button class="btn btn-primary comprar-btn" data-name="Los andes Ipa" data-price="2400">Comprar</button>
       </div>
     </div>
   </div>
@@ -86,14 +91,29 @@
       <img src="imagenes/cerveza_amber_lager.webp" class="card-img-top" alt="...">
       <div class="card-body">
         <h5 class="card-title">Patagonia Amber lager</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Comprar</a>
+        <p class="card-text">Cerveza Amber Larger</p>
+        <p class="price">precio: $2540</p>
+        <button class="btn btn-primary comprar-btn" data-name="Patagonia Amber Larger" data-price="2540">Comprar</button>
       </div>
     </div>
   </div>
 </div>
 </div>
 </div>
+
+<!-- Carrito de compras -->
+<div class="container mt-4">
+  <h2>Carrito de compras</h2>
+  <ul id="cartItemsList" class="list-group">
+    <!-- Los productos seleccionados aparecerán aquí -->
+  </ul>
+  <div id="cartTotal">
+    <h3>Total: $<span id="totalPrice">0</span></h3>
+  </div>
+  <button id="clearCart" class="btn btn-danger mt-3">Vaciar carrito</button>
+</div>
+
+
 </main>
 
 <script src="main.js"></script>
