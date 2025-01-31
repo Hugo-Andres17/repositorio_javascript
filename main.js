@@ -126,29 +126,3 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('clearCart').addEventListener('click', clearCart);
 });
 
-// Función para filtrar productos
-function filtrar(event) {
-    event.preventDefault(); // Prevenir el envío del formulario y recarga de la página
-    
-    // Obtener el valor del campo de búsqueda
-    let productoabuscar = document.getElementById("searchInputNavbar").value.trim().toLowerCase();
-    
-    // Obtener todas las tarjetas de producto
-    let cards = document.querySelectorAll(".card");
-
-    // Recorrer todas las tarjetas
-    cards.forEach(card => {
-        // Obtener el título de cada tarjeta
-        let titulo = card.querySelector(".card-title").textContent.trim().toLowerCase();
-        
-        // Comprobar si el título contiene el texto de búsqueda
-        if (titulo.includes(productoabuscar)) {
-            card.style.display = "block";  // Mostrar la tarjeta
-        } else {
-            card.style.display = "none";   // Ocultar la tarjeta
-        }
-    });
-}
-
-// Agregar un "event listener" al formulario de búsqueda
-document.querySelector("form[role='search']").addEventListener("submit", filtrar);
