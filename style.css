@@ -1,13 +1,36 @@
 h1{
     text-align: center;
+    padding-top: 3%;
 }
 
 main
 {
-    padding-top: 10%;
+    padding-top: 8%;
 }
 
 .custom-margin{
     margin-top: 30px;
 }
 
+.navbar-cart-icon {
+    padding-right: 3%;
+    text-decoration: none;
+    color: black; /* Puedes cambiar el color del ícono */
+    font-size: 1.5rem;
+}
+  
+.navbar-cart-icon .badge {
+
+    padding-right: 2%;
+
+    font-size: 0.8rem;
+}
+
+.navbar-brand {
+
+    padding-left: 2%;
+}
+
+#cart-count{
+    padding-left: 2%;
+}

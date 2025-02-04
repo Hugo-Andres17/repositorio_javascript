@@ -1,128 +1,127 @@
+let searchTimeout;
 
-// Función para filtrar productos por el título
-function filtrar(event) {
-    event.preventDefault(); // Prevenir el envío del formulario y recarga de la página
-    
-    // Obtener el valor del campo de búsqueda
-    let productoabuscar = document.getElementById("searchInputNavbar").value.trim().toLowerCase();
-    
-    // Obtener todas las tarjetas de producto
-    let cards = document.querySelectorAll(".card");
+// Función para manejar la búsqueda
+function handleSearch() {
+    const searchTerm = document.getElementById("searchInputNavbar").value.toLowerCase();
+    const productosContainer = document.getElementById("productos-container");
+    const productos = productosContainer.getElementsByClassName("card");
 
-    // Recorrer todas las tarjetas
-    cards.forEach(card => {
-        // Obtener el título de cada tarjeta
-        let titulo = card.querySelector(".card-title").textContent.trim().toLowerCase();
+    let found = false; // Variable para verificar si encontramos coincidencias
+
+    // Recorremos todos los productos y los mostramos o escondemos según la búsqueda
+    for (let producto of productos) {
+        const title = producto.querySelector(".card-title").textContent.toLowerCase();
         
-        // Comprobar si el título contiene el texto de búsqueda
-        if (titulo.includes(productoabuscar)) {
-            card.style.display = "block";  // Mostrar la tarjeta
+        // Si el título contiene el término de búsqueda, mostramos el producto
+        if (title.includes(searchTerm)) {
+            producto.style.display = "";
+            found = true;
         } else {
-            card.style.display = Swal.fire({
-                icon: "error",
-                title: "Producto no encontrado",
-                text: "No hay ningun producto que coincida con los datos ingresados",
-                footer: '<a href="index.html">Buscar nuevamente</a>'
-              });
-              ;   // Ocultar la tarjeta
+            producto.style.display = "none";
         }
+    }
+
+    // Si no se encontraron coincidencias, mostramos SweetAlert
+    if (!found && searchTerm.length > 0) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Producto no encontrado',
+            text: 'No se encontraron productos con ese nombre.',
+        });
+    }
+}
+
+// Asignamos el evento de búsqueda a la caja de texto del formulario de búsqueda
+document.getElementById("searchInputNavbar")?.addEventListener("input", function() {
+    // Limpiamos el timeout anterior para que no se ejecute varias veces
+    clearTimeout(searchTimeout);
+    
+    // Establecemos un nuevo timeout para realizar la búsqueda después de 500ms
+    searchTimeout = setTimeout(handleSearch, 500);
+});
+
+// Función para agregar productos al carrito
+function addToCart(name, price) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingProduct = cart.find(product => product.name === name);
+
+    if (existingProduct) {
+        existingProduct.quantity += 1;
+    } else {
+        cart.push({ name, price, quantity: 1 });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+}
+
+// Función para actualizar el número de productos en el carrito
+function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartCount = cart.reduce((total, product) => total + product.quantity, 0);
+    localStorage.setItem("cartCount", cartCount);
+    const cartCountElement = document.getElementById("cart-count");
+    if (cartCountElement) {
+        cartCountElement.textContent = cartCount;
+    }
+    
+}
+
+// Mostrar productos en el carrito (paginados.html)
+function showCart() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const productosList = document.getElementById("productos-lista");
+    const totalPriceElem = document.getElementById("total");
+    
+    productosList.innerHTML = ""; // Limpiar la lista de productos
+    let totalPrice = 0;
+
+    cart.forEach(product => {
+        const productItem = document.createElement("li");
+        productItem.textContent = `${product.name} - $${product.price} (Cantidad: ${product.quantity})`;
+        productosList.appendChild(productItem);
+        totalPrice += product.price * product.quantity;
     });
-}
 
-// Agregar un "event listener" al formulario de búsqueda
-document.querySelector("form[role='search']").addEventListener("submit", filtrar);
-
-
-let cart = [];
-
-// Función para manejar el clic en el botón "Comprar"
-function handleBuyClick(event) {
-    const productName = event.target.getAttribute('data-name');
-    const productPrice = parseInt(event.target.getAttribute('data-price'));
-
-    // Crear un objeto de producto
-    const product = {
-        name: productName,
-        price: productPrice
-    };
-
-    // Agregar el producto al carrito
-    cart.push(product);
-
-    // Guardar el carrito en localStorage
-    saveCartToLocalStorage();
-
-    // Actualizar la lista del carrito
-    updateCart();
-}
-
-// Función para actualizar el carrito en la interfaz de usuario
-function updateCart() {
-    const cartList = document.getElementById('cartItemsList');
-    cartList.innerHTML = ''; // Limpiar la lista actual
-
-    let total = 0;
-
-    // Crear los elementos de la lista para cada producto
-    cart.forEach((item, index) => {
-        const listItem = document.createElement('li');
-        listItem.classList.add('list-group-item');
-        listItem.innerHTML = `
-            ${item.name} - $${item.price}
-            <button class="btn btn-danger btn-sm float-end" onclick="removeItem(${index})">Eliminar</button>
-        `;
-        cartList.appendChild(listItem);
-        total += item.price;
-    });
-
-    // Mostrar el total del carrito
-    document.getElementById('totalPrice').textContent = total;
-}
-
-// Función para eliminar un producto del carrito
-function removeItem(index) {
-    cart.splice(index, 1); // Eliminar el producto del carrito
-    saveCartToLocalStorage(); // Guardar el carrito actualizado en localStorage
-    updateCart(); // Actualizar la vista del carrito
+    totalPriceElem.textContent = `Total: $${totalPrice}`;
 }
 
 // Función para vaciar el carrito
 function clearCart() {
-    cart = []; // Vaciar el carrito
-    saveCartToLocalStorage(); // Guardar el carrito vacío en localStorage
-    updateCart(); // Actualizar la vista del carrito
+    localStorage.removeItem("cart");
+    updateCartCount();
+    showCart();
 }
 
-// Función para guardar el carrito en localStorage
-function saveCartToLocalStorage() {
-    // Convertir el carrito a una cadena JSON y guardarlo en localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-}
-
-// Función para cargar el carrito desde localStorage
-function loadCartFromLocalStorage() {
-    // Verificar si hay un carrito guardado en localStorage
-    const storedCart = localStorage.getItem('cart');
-    if (storedCart) {
-        // Convertir la cadena JSON en un array y asignarlo a la variable cart
-        cart = JSON.parse(storedCart);
-        // Actualizar la vista del carrito
-        updateCart();
+// Función que se ejecuta cuando la página esté lista
+document.addEventListener("DOMContentLoaded", function() {
+    // Inicializar el contador del carrito con el número de productos que tenga
+    const cartCount = localStorage.getItem("cartCount");
+    if (cartCount) {
+        document.getElementById("cart-count")?.textContent = cartCount;
     }
-}
 
-// Asegúrate de que el evento de clic en los botones "Comprar" se añade después de que los elementos sean cargados
-window.addEventListener('DOMContentLoaded', () => {
-    // Cargar el carrito desde localStorage cuando la página se carga
-    loadCartFromLocalStorage();
-
-    // Añadir el evento de clic a cada botón de "Comprar"
-    const buyButtons = document.querySelectorAll('.comprar-btn');
-    buyButtons.forEach(button => {
-        button.addEventListener('click', handleBuyClick);
+    // Asignar evento a los botones de "comprar"
+    document.querySelectorAll(".comprar-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            const productName = button.getAttribute("data-name");
+            const productPrice = parseInt(button.getAttribute("data-price"));
+    
+            addToCart(productName, productPrice);
+            Swal.fire({
+                icon: 'success',
+                title: 'Producto añadido',
+                text: `${productName} ha sido añadido a tu carrito.`,
+            });
+        });
     });
 
-    // Añadir evento para vaciar el carrito
-    document.getElementById('clearCart').addEventListener('click', clearCart);
-});
+    // Asignar evento al botón para vaciar el carrito
+    const vaciarCarritoBtn = document.getElementById("vaciar-carrito");
+    if (vaciarCarritoBtn) {
+        vaciarCarritoBtn.addEventListener("click", clearCart);
+    }
 
+    // Mostrar el carrito al cargar la página
+    showCart();
+});
