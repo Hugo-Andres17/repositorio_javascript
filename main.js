@@ -1,27 +1,25 @@
-let searchTimeout;
 
-// Función para manejar la búsqueda
-function handleSearch() {
-    const searchTerm = document.getElementById("searchInputNavbar").value.toLowerCase();
-    const productosContainer = document.getElementById("productos-container");
-    const productos = productosContainer.getElementsByClassName("card");
+function filterProducts() {
+    const searchTerm = document.getElementById("searchInputNavbar").value.toLowerCase().trim(); 
+    const productosContainers = document.querySelectorAll(".container .row"); 
+    let found = false; 
 
-    let found = false; // Variable para verificar si encontramos coincidencias
+    productosContainers.forEach(container => {
+        const productos = container.getElementsByClassName("card"); 
 
-    // Recorremos todos los productos y los mostramos o escondemos según la búsqueda
-    for (let producto of productos) {
-        const title = producto.querySelector(".card-title").textContent.toLowerCase();
-        
-        // Si el título contiene el término de búsqueda, mostramos el producto
-        if (title.includes(searchTerm)) {
-            producto.style.display = "";
-            found = true;
-        } else {
-            producto.style.display = "none";
+        for (let producto of productos) {
+            const title = producto.querySelector(".card-title").textContent.toLowerCase().trim();
+
+           
+            if (title.includes(searchTerm)) {
+                producto.style.display = "";
+                found = true; 
+            } else {
+                producto.style.display = "none"; 
+            }
         }
-    }
+    });
 
-    // Si no se encontraron coincidencias, mostramos SweetAlert
     if (!found && searchTerm.length > 0) {
         Swal.fire({
             icon: 'error',
@@ -31,16 +29,10 @@ function handleSearch() {
     }
 }
 
-// Asignamos el evento de búsqueda a la caja de texto del formulario de búsqueda
 document.getElementById("searchInputNavbar")?.addEventListener("input", function() {
-    // Limpiamos el timeout anterior para que no se ejecute varias veces
-    clearTimeout(searchTimeout);
-    
-    // Establecemos un nuevo timeout para realizar la búsqueda después de 500ms
-    searchTimeout = setTimeout(handleSearch, 500);
+    filterProducts(); 
 });
 
-// Función para agregar productos al carrito
 function addToCart(name, price) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const existingProduct = cart.find(product => product.name === name);
@@ -55,7 +47,6 @@ function addToCart(name, price) {
     updateCartCount();
 }
 
-// Función para actualizar el número de productos en el carrito
 function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartCount = cart.reduce((total, product) => total + product.quantity, 0);
@@ -64,7 +55,6 @@ function updateCartCount() {
     if (cartCountElement) {
         cartCountElement.textContent = cartCount;
     }
-    
 }
 
 // Mostrar productos en el carrito (paginados.html)
@@ -86,19 +76,22 @@ function showCart() {
     totalPriceElem.textContent = `Total: $${totalPrice}`;
 }
 
-// Función para vaciar el carrito
+
 function clearCart() {
     localStorage.removeItem("cart");
     updateCartCount();
     showCart();
 }
 
-// Función que se ejecuta cuando la página esté lista
+
 document.addEventListener("DOMContentLoaded", function() {
     // Inicializar el contador del carrito con el número de productos que tenga
     const cartCount = localStorage.getItem("cartCount");
     if (cartCount) {
-        document.getElementById("cart-count")?.textContent = cartCount;
+        const cartCountElement = document.getElementById("cart-count");
+        if (cartCountElement) {
+            cartCountElement.textContent = cartCount;
+        }
     }
 
     // Asignar evento a los botones de "comprar"
