@@ -118,3 +118,54 @@ document.addEventListener("DOMContentLoaded", function() {
     // Mostrar el carrito al cargar la página
     showCart();
 });
+
+
+// aplicacion de una API// 
+
+fetch('https://dolarapi.com/v1/dolares/blue')
+  .then(response => response.json())
+  .then(data => {
+    const compra = data.compra;
+    const venta = data.venta
+
+    const compraElement = document.getElementById('compra')
+    const ventaElement = document.getElementById ('venta')
+
+  ventaElement.textContent = venta;
+
+  })
+  
+  .catch(error=> {
+    console.error("hay un error",error)
+ })
+
+fetch('https://dolarapi.com/v1/dolares/blue')
+  .then(response => response.json()) 
+  .then(apiData => {
+
+    data = apiData;
+
+    actualizarConversion();
+  })
+  .catch(error => {
+
+    console.error('Error al obtener los datos:', error);
+  });
+
+function actualizarConversion() {
+
+  const productos = document.querySelectorAll('.card');
+
+  productos.forEach(producto => {
+    
+    const precioPesos = parseFloat(producto.querySelector('.price').textContent.replace('precio: $', ''));
+
+    
+    const valorDolar = data.venta;
+    const precioDolares = precioPesos / valorDolar;
+
+
+    producto.querySelector('#venta').textContent = precioDolares.toFixed(2);
+  });
+}
+
